@@ -1,0 +1,46 @@
+html {
+    font-size: 14px;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(235, 235, 235);
+}
+
+footer {
+    margin-top: auto;
+    padding: 10px;
+    background-color: rgb(245, 245, 245);
+}
+
+nav li a:hover {
+    font-weight: 500;
+    position: sticky;
+    top: 0;
+}
+
+footer a {
+    color: inherit;
+}
+
+header {
+    background-color: rgb(245, 245, 245);
+    margin-bottom: 5px;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
