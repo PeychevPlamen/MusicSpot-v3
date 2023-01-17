@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace MusicSpot_v3.Data
+namespace MusicSpot_v3.Infrastructure.Data
 {
     public class ApplicationDbContext : IdentityDbContext
     {

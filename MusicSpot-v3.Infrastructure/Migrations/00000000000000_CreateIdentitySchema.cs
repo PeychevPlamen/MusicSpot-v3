@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Migrations;
 using System;
 
-namespace MusicSpot_v3.Data.Migrations
+namespace MusicSpot_v3.Infrastructure.Migrations
 {
     public partial class CreateIdentitySchema : Migration
     {
