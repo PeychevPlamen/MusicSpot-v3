@@ -30,6 +30,8 @@ namespace MusicSpot_v3.Infrastructure.Data.Models
         [Required]
         public bool IsPublic { get; set; }
 
+        public ICollection<Album> Albums { get; set; } = new List<Album>();
+
         [Required]
         [ForeignKey(nameof(User))]
         public string? UserId { get; set; }
