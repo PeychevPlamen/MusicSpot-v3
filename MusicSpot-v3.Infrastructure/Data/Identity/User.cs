@@ -12,11 +12,11 @@ namespace MusicSpot_v3.Infrastructure.Data.Identity
 {
     public class User : IdentityUser
     {
-        [Required]
+        
         [MaxLength(UsernameMaxLength)]
         public string? FirstName { get; set; }
 
-        [Required]
+        
         [MaxLength(UsernameMaxLength)]
         public string? LastName { get; set; }
 

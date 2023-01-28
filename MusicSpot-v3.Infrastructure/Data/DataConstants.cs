@@ -16,7 +16,7 @@ namespace MusicSpot_v3.Infrastructure.Data
         public const int MinYearValue = 1900;
         public const int MaxYearValue = 2023;
 
-        public const int UsernameMinLength = 5;
+        public const int UsernameMinLength = 2;
         public const int UsernameMaxLength = 20;
 
         public const int PasswordMinLength = 5;
