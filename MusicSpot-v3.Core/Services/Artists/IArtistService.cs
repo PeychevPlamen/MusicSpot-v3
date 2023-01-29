@@ -16,6 +16,9 @@ namespace MusicSpot_v3.Core.Services.Artists
 
         Task<DetailsArtistFormModel> ArtistDetails(int? artistId);
 
+        Task<CreateArtistFormModel> CreateArtist(CreateArtistFormModel artist);
+
+        
         bool ArtistExist(int artistId);
     }
 }

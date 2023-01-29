@@ -26,7 +26,7 @@ namespace MusicSpot_v3.Core.Services.Artists
 
             if (!string.IsNullOrWhiteSpace(searchTerm))
             {
-                currArtist = currArtist.Where(a=>a.Name.ToLower().Contains(searchTerm.ToLower())).ToList();
+                currArtist = currArtist.Where(a => a.Name.ToLower().Contains(searchTerm.ToLower())).ToList();
             }
 
             var result = new AllArtistsViewModel()
@@ -80,5 +80,24 @@ namespace MusicSpot_v3.Core.Services.Artists
 
             return artists;
         }
+                
+        public async Task<CreateArtistFormModel> CreateArtist(CreateArtistFormModel model)
+        {
+            var newArtist = new Artist
+            {
+                Name = model.Name,
+                Genre = model.Genre,
+                Description = model.Description,
+                IsPublic = model.IsPublic,
+                UserId = model.UserId,
+            };
+
+            await _context.Artists.AddAsync(newArtist);
+            await _context.SaveChangesAsync();
+
+            return model;
+        }
+
+
     }
 }

@@ -31,7 +31,7 @@ namespace MusicSpot_v3.Controllers
         public async Task<IActionResult> Index(string userId, string searchTerm, int p = 1, int s = 5)
         {
 
-           var userID = User.Id();
+            var userID = User.Id();
 
             var model = await _service.AllArtists(userID, searchTerm, p, s);
 
@@ -39,6 +39,7 @@ namespace MusicSpot_v3.Controllers
         }
 
         // GET: Artists/Details/5
+        [Authorize]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -56,29 +57,32 @@ namespace MusicSpot_v3.Controllers
             return View(model);
         }
 
-        //// GET: Artists/Create
-        //public IActionResult Create()
-        //{
-        //    ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id");
-        //    return View();
-        //}
+        // GET: Artists/Create
+        [Authorize]
+        public async Task<IActionResult> Create()
+        {
+            //ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id");
+            return View();
+        }
 
-        //// POST: Artists/Create
-        //// To protect from overposting attacks, enable the specific properties you want to bind to.
-        //// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Create([Bind("Id,Name,Genre,Description,IsPublic,UserId")] Artist artist)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        _context.Add(artist);
-        //        await _context.SaveChangesAsync();
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", artist.UserId);
-        //    return View(artist);
-        //}
+        // POST: Artists/Create
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(CreateArtistFormModel artist)
+        {
+            var userId = User.Id();
+            artist.UserId = userId;
+
+            if (ModelState.IsValid)
+            {
+                var result = _service.CreateArtist(artist);
+
+                return RedirectToAction(nameof(Index));
+            }
+            //ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", artist.UserId);
+            return View(artist);
+        }
 
         //// GET: Artists/Edit/5
         //public async Task<IActionResult> Edit(int? id)
