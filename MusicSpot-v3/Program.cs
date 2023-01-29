@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using MusicSpot_v3.Core.Services.Artists;
 using MusicSpot_v3.Infrastructure.Data;
 using MusicSpot_v3.Infrastructure.Data.Identity;
 
@@ -23,7 +25,13 @@ builder.Services
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
-builder.Services.AddControllersWithViews();
+builder.Services.AddTransient<IArtistService, ArtistService>();
+
+builder.Services
+    .AddControllersWithViews(options =>
+    {
+        options.Filters.Add<AutoValidateAntiforgeryTokenAttribute>();
+    });
 
 var app = builder.Build();
 

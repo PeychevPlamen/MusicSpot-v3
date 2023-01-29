@@ -1,0 +1,28 @@
+﻿@using MusicSpot_v3.Core.Models.Artists;
+@model AllArtistsViewModel
+
+@{
+    ViewData["Title"] = "Admin Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome to Admin area</h1>
+    <p class="border border-light rounded-pill fs-3 bg-light p-1">All Users Artists</p>
+</div>
+
+
+<div class="row">
+    @foreach (var artist in Model.Artists)
+    {
+        <div class="card text-dark rounded-3 bg-light mb-3 p-3 m-3 border border-warning" style="max-width: 22rem;">
+            <div class="card">
+                <div class="flex card-body">
+                    <h5 class="text-center card-header">@artist.Name</h5>
+                    <p class="text-center p-2 card-text">Genre: @artist.Genre</p>
+                    <a class="btn btn-warning" asp-area="" asp-controller="Artists" asp-action="Edit" asp-route-id="@artist.Id">Edit</a>
+                    <a class="btn btn-success" asp-area="" asp-controller="Artists" asp-action="Details" asp-route-id="@artist.Id">Details</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>

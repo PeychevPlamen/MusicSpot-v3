@@ -8,12 +8,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MusicSpot-v3.Infrastructure\MusicSpot-v3.Infrastructure.csproj" />
+    <PackageReference Include="Microsoft.AspNet.Mvc" Version="5.2.9" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Models\" />
-    <Folder Include="Services\" />
+    <ProjectReference Include="..\MusicSpot-v3.Infrastructure\MusicSpot-v3.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
