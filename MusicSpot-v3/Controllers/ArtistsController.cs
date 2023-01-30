@@ -99,8 +99,6 @@ namespace MusicSpot_v3.Controllers
                 return NotFound();
             }
 
-            // var currArtist = new Artist { Name= artist.Name, Genre = artist.Genre, Description = artist.Description, IsPublic = artist.IsPublic };
-
             return View(artist);
         }
 
