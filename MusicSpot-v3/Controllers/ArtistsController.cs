@@ -79,62 +79,71 @@ namespace MusicSpot_v3.Controllers
 
                 return RedirectToAction(nameof(Index));
             }
-            //ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", artist.UserId);
+
             return View(artist);
         }
 
-        //// GET: Artists/Edit/5
-        //public async Task<IActionResult> Edit(int? id)
-        //{
-        //    if (id == null || _context.Artists == null)
-        //    {
-        //        return NotFound();
-        //    }
+        // GET: Artists/Edit/5
+        [Authorize]
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null || _service.ArtistDetails == null)
+            {
+                return NotFound();
+            }
 
-        //    var artist = await _context.Artists.FindAsync(id);
-        //    if (artist == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", artist.UserId);
-        //    return View(artist);
-        //}
+            var artist = await _service.ArtistDetails(id);
 
-        //// POST: Artists/Edit/5
-        //// To protect from overposting attacks, enable the specific properties you want to bind to.
-        //// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Genre,Description,IsPublic,UserId")] Artist artist)
-        //{
-        //    if (id != artist.Id)
-        //    {
-        //        return NotFound();
-        //    }
+            if (artist == null)
+            {
+                return NotFound();
+            }
 
-        //    if (ModelState.IsValid)
-        //    {
-        //        try
-        //        {
-        //            _context.Update(artist);
-        //            await _context.SaveChangesAsync();
-        //        }
-        //        catch (DbUpdateConcurrencyException)
-        //        {
-        //            if (!ArtistExists(artist.Id))
-        //            {
-        //                return NotFound();
-        //            }
-        //            else
-        //            {
-        //                throw;
-        //            }
-        //        }
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", artist.UserId);
-        //    return View(artist);
-        //}
+            // var currArtist = new Artist { Name= artist.Name, Genre = artist.Genre, Description = artist.Description, IsPublic = artist.IsPublic };
+
+            return View(artist);
+        }
+
+        // POST: Artists/Edit/5
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int? id, EditArtistFormModel artist)
+        {
+            if (id != artist.Id)
+            {
+                return NotFound();
+            }
+
+            var editedArtist = await _service.EditArtist(id, artist);
+
+            if (editedArtist == null)
+            {
+                return BadRequest();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    await _service.EditArtist(id, artist);
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!ArtistExists(artist.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View(artist);
+        }
 
         //// GET: Artists/Delete/5
         //public async Task<IActionResult> Delete(int? id)
@@ -174,9 +183,9 @@ namespace MusicSpot_v3.Controllers
         //    return RedirectToAction(nameof(Index));
         //}
 
-        //private bool ArtistExists(int id)
-        //{
-        //    return _service.Artists.Any(e => e.Id == id);
-        //}
+        private bool ArtistExists(int id)
+        {
+            return _service.ArtistExist(id);
+        }
     }
 }

@@ -98,6 +98,66 @@ namespace MusicSpot_v3.Core.Services.Artists
             return model;
         }
 
+        public async Task<EditArtistFormModel> EditArtist(int? artistId, EditArtistFormModel artist)
+        {
+            var artistData = _context.Artists.Find(artistId);
 
+            //var result = new Artist
+            //{
+            //    Name = artist.Name,
+            //    Genre = artist.Genre,
+            //    Description = artist.Description,
+            //    IsPublic = artist.IsPublic
+            //};
+
+            artistData.Name = artist.Name;
+            artistData.Genre = artist.Genre;
+            artistData.Description = artist.Description;
+            artistData.IsPublic = artist.IsPublic;
+
+            await _context.SaveChangesAsync();
+
+            return artist;
+        }
+
+        //public async Task<EditArtistFormModel> EditArtist(EditArtistFormModel artist)
+        //{
+        //    var artistData = _context.Artists.Find(artist.Id);
+
+        //    //if (artistData == null)
+        //    //{
+        //    //    return;
+        //    //}
+
+
+        //    artistData.Name = artist.Name;
+        //    artistData.Genre = artist.Genre;
+        //    artistData.Description = artist.Description;
+        //    artistData.IsPublic = artist.IsPublic;
+
+        //    await _context.SaveChangesAsync();
+
+        //    return artist;
+        //}
+
+        //public async Task<EditArtistFormModel> EditArtist(int id, string? name, string? genre, string? description)
+        //{
+        //    var artistData = _context.Artists.Find(id);
+
+        //    //if (artistData == null)
+        //    //{
+        //    //    return;
+        //    //}
+
+
+        //    artistData.Name = name;
+        //    artistData.Genre = genre;
+        //    artistData.Description = description;
+        //    //artistData.IsPublic = artist.IsPublic;
+
+        //    await _context.SaveChangesAsync();
+
+        //    return artistData;
+        //}
     }
 }

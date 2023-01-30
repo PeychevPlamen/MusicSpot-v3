@@ -1,4 +1,6 @@
-﻿@model MusicSpot_v3.Infrastructure.Data.Models.Artist
+﻿@using MusicSpot_v3.Core.Models.Artists;
+@*@model MusicSpot_v3.Infrastructure.Data.Models.Artist*@
+@model DetailsArtistFormModel
 
 @{
     ViewData["Title"] = "Edit";
@@ -33,11 +35,11 @@
                     <input class="form-check-input" asp-for="IsPublic" /> @Html.DisplayNameFor(model => model.IsPublic)
                 </label>
             </div>
-            <div class="form-group">
+           @* <div class="form-group">
                 <label asp-for="UserId" class="control-label"></label>
                 <select asp-for="UserId" class="form-control" asp-items="ViewBag.UserId"></select>
                 <span asp-validation-for="UserId" class="text-danger"></span>
-            </div>
+            </div>*@
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>

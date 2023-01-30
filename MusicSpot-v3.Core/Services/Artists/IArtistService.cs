@@ -18,7 +18,10 @@ namespace MusicSpot_v3.Core.Services.Artists
 
         Task<CreateArtistFormModel> CreateArtist(CreateArtistFormModel artist);
 
-        
+        Task<EditArtistFormModel> EditArtist(int? artistId, EditArtistFormModel artist);
+                
         bool ArtistExist(int artistId);
+
+        //Task EditArtist(int id, string? name, string? genre, string? description, bool isPublic);
     }
 }
