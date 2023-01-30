@@ -61,7 +61,6 @@ namespace MusicSpot_v3.Controllers
         [Authorize]
         public async Task<IActionResult> Create()
         {
-            //ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id");
             return View();
         }
 
