@@ -4,6 +4,7 @@ using MusicSpot_v3.Infrastructure.Data;
 using MusicSpot_v3.Infrastructure.Data.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -80,7 +81,7 @@ namespace MusicSpot_v3.Core.Services.Artists
 
             return artists;
         }
-                
+
         public async Task<CreateArtistFormModel> CreateArtist(CreateArtistFormModel model)
         {
             var newArtist = new Artist
@@ -96,6 +97,21 @@ namespace MusicSpot_v3.Core.Services.Artists
             await _context.SaveChangesAsync();
 
             return model;
+        }
+
+        public async Task<DetailsArtistFormModel> DeleteArtist(int? artistId, DetailsArtistFormModel artist)
+        {
+            var artistToDelete = await _context.Artists.FindAsync(artistId);
+
+            //if (artistToDelete == null)
+            //{
+            //    return ;
+            //}
+
+            _context.Artists.Remove(artistToDelete);
+            await _context.SaveChangesAsync();
+
+            return artist;
         }
 
         public async Task<EditArtistFormModel> EditArtist(int? artistId, EditArtistFormModel artist)

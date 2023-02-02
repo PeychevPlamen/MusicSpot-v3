@@ -75,7 +75,7 @@ namespace MusicSpot_v3.Controllers
 
             if (ModelState.IsValid)
             {
-                var result = _service.CreateArtist(artist);
+                var result = await _service.CreateArtist(artist);
 
                 return RedirectToAction(nameof(Index));
             }
@@ -143,43 +143,48 @@ namespace MusicSpot_v3.Controllers
             return View(artist);
         }
 
-        //// GET: Artists/Delete/5
-        //public async Task<IActionResult> Delete(int? id)
-        //{
-        //    if (id == null || _context.Artists == null)
-        //    {
-        //        return NotFound();
-        //    }
+        // GET: Artists/Delete/5
+        [Authorize]
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null || _service.AllArtists == null)
+            {
+                return NotFound();
+            }
 
-        //    var artist = await _context.Artists
-        //        .Include(a => a.User)
-        //        .FirstOrDefaultAsync(m => m.Id == id);
-        //    if (artist == null)
-        //    {
-        //        return NotFound();
-        //    }
+            var artist = await _service.ArtistDetails(id);
 
-        //    return View(artist);
-        //}
+            if (artist == null)
+            {
+                return NotFound();
+            }
 
-        //// POST: Artists/Delete/5
-        //[HttpPost, ActionName("Delete")]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> DeleteConfirmed(int id)
-        //{
-        //    if (_context.Artists == null)
-        //    {
-        //        return Problem("Entity set 'ApplicationDbContext.Artists'  is null.");
-        //    }
-        //    var artist = await _context.Artists.FindAsync(id);
-        //    if (artist != null)
-        //    {
-        //        _context.Artists.Remove(artist);
-        //    }
+            return View(artist);
+        }
 
-        //    await _context.SaveChangesAsync();
-        //    return RedirectToAction(nameof(Index));
-        //}
+        // POST: Artists/Delete/5
+        [Authorize]
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id, DetailsArtistFormModel artistToDelete)
+        {
+            if (_service.ArtistDetails(id) == null)
+            {
+                return Problem("Entity set 'ApplicationDbContext.Artists'  is null.");
+            }
+            var artist = _service.ArtistExist(id);
+
+            if (artist)
+            {
+                await _service.DeleteArtist(id, artistToDelete);
+            }
+            else
+            {
+                return NotFound(nameof(Artist));
+            }
+
+            return RedirectToAction(nameof(Index));
+        }
 
         private bool ArtistExists(int id)
         {
