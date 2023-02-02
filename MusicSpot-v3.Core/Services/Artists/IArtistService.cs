@@ -24,6 +24,5 @@ namespace MusicSpot_v3.Core.Services.Artists
 
         bool ArtistExist(int artistId);
 
-        //Task EditArtist(int id, string? name, string? genre, string? description, bool isPublic);
     }
 }

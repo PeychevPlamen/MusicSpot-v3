@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using MusicSpot_v3.Core.Services.Albums;
 using MusicSpot_v3.Core.Services.Artists;
 using MusicSpot_v3.Infrastructure.Data;
 using MusicSpot_v3.Infrastructure.Data.Identity;
@@ -26,6 +27,7 @@ builder.Services
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
 builder.Services.AddTransient<IArtistService, ArtistService>();
+builder.Services.AddTransient<IAlbumService, AlbumService>();
 
 builder.Services
     .AddControllersWithViews(options =>

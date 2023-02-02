@@ -1,10 +1,11 @@
-﻿@model IEnumerable<MusicSpot_v3.Infrastructure.Data.Models.Album>
+﻿@using MusicSpot_v3.Core.Models.Albums;
+@model AllAlbumsViewModel
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Albums";
 }
 
-<h1>Index</h1>
+<h1>All Albums</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -13,37 +14,37 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Title)
+                Title
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.TitleImage)
+                Image
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Year)
+                Year
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Format)
+               Format
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.MediaCondition)
+                MediaCondition
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.SleeveCondition)
+                SleeveCondition
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Description)
+                Description
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IsPublic)
+                IsPublic
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Artist)
+                Artist
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+@foreach (var item in Model.Albums) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Title)
@@ -70,7 +71,7 @@
                 @Html.DisplayFor(modelItem => item.IsPublic)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Artist.Genre)
+                @Html.DisplayFor(modelItem => item.Artist.Name)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
