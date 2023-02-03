@@ -5,6 +5,13 @@
     ViewData["Title"] = "Albums";
 }
 
+<form method="get">
+    <div class="form-group col-md-4">
+        <label asp-for="SearchTerm"></label>
+        <input asp-for="SearchTerm" id="textId" class="form-control" placeholder="Album Name, Year or Format">
+    </div>
+</form>
+
 <h1>All Albums</h1>
 
 <p>
@@ -23,7 +30,7 @@
                 Year
             </th>
             <th>
-               Format
+                Format
             </th>
             <th>
                 MediaCondition
@@ -44,41 +51,42 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.Albums) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TitleImage)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Year)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Format)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MediaCondition)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SleeveCondition)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsPublic)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Artist.Name)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model.Albums)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    <img src="@Html.Raw(item.TitleImage)" class="img-thumbnail">
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Year)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Format)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MediaCondition)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SleeveCondition)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsPublic)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Artist.Name)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

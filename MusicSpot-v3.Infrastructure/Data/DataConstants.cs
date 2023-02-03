@@ -29,6 +29,6 @@ namespace MusicSpot_v3.Infrastructure.Data
 
         public const int GenreMinLength = 2;
 
-        public const int DescriptionMaxLength = 250;
+        public const int DescriptionMaxLength = 300;
     }
 }
