@@ -17,6 +17,8 @@ namespace MusicSpot_v3.Core.Services.Albums
 
         Task<EditAlbumFormModel> EditAlbum(int? albumId, EditAlbumFormModel album);
 
+        Task<DetailsAlbumFormModel> DeleteAlbum(int? albumId, DetailsAlbumFormModel album);
+
         bool AlbumExists(int albumId);
     }
 }

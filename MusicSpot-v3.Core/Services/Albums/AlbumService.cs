@@ -83,6 +83,21 @@ namespace MusicSpot_v3.Core.Services.Albums
             return album;
         }
 
+        public async Task<DetailsAlbumFormModel> DeleteAlbum(int? albumId, DetailsAlbumFormModel album)
+        {
+            var albumToDelete = await _context.Albums.FindAsync(albumId);
+
+            //if (albumToDelete == null)
+            //{
+            //    return:
+            //}
+
+            _context.Albums.Remove(albumToDelete);
+            await _context.SaveChangesAsync();
+
+            return album;
+        }
+
         public async Task<DetailsAlbumFormModel> DetailsAlbum(int? albumId)
         {
             var currAlbum = await _context.Albums.FindAsync(albumId);

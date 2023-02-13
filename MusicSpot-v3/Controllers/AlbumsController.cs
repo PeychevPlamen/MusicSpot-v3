@@ -134,7 +134,7 @@ namespace MusicSpot_v3.Controllers
                 try
                 {
                     await _albumService.EditAlbum(id, album);
-                    
+
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -155,43 +155,49 @@ namespace MusicSpot_v3.Controllers
             return View(album);
         }
 
-        //// GET: Albums/Delete/5
-        //public async Task<IActionResult> Delete(int? id)
-        //{
-        //    if (id == null || _context.Albums == null)
-        //    {
-        //        return NotFound();
-        //    }
+        // GET: Albums/Delete/5
+        [Authorize]
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
 
-        //    var album = await _context.Albums
-        //        .Include(a => a.Artist)
-        //        .FirstOrDefaultAsync(m => m.Id == id);
-        //    if (album == null)
-        //    {
-        //        return NotFound();
-        //    }
+            var album = await _albumService.DetailsAlbum(id);
 
-        //    return View(album);
-        //}
+            if (album == null)
+            {
+                return NotFound();
+            }
 
-        //// POST: Albums/Delete/5
-        //[HttpPost, ActionName("Delete")]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> DeleteConfirmed(int id)
-        //{
-        //    if (_context.Albums == null)
-        //    {
-        //        return Problem("Entity set 'ApplicationDbContext.Albums'  is null.");
-        //    }
-        //    var album = await _context.Albums.FindAsync(id);
-        //    if (album != null)
-        //    {
-        //        _context.Albums.Remove(album);
-        //    }
+            return View(album);
+        }
 
-        //    await _context.SaveChangesAsync();
-        //    return RedirectToAction(nameof(Index));
-        //}
+        // POST: Albums/Delete/5
+        [Authorize]
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id, DetailsAlbumFormModel album)
+        {
+            if (_albumService.DetailsAlbum(id) == null)
+            {
+                return Problem("Entity set 'ApplicationDbContext.Albums'  is null.");
+            }
+
+            var albumToDelete = _albumService.AlbumExists(id);
+
+            if (albumToDelete != null)
+            {
+                await _albumService.DeleteAlbum(id, album);
+            }
+            else
+            {
+                return NotFound(nameof(album));
+            }
+
+            return RedirectToAction(nameof(Index));
+        }
 
         private bool AlbumExists(int id)
         {

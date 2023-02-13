@@ -1,4 +1,6 @@
-﻿@model MusicSpot_v3.Infrastructure.Data.Models.Album
+﻿@using MusicSpot_v3.Core.Models.Albums;
+@model DetailsAlbumFormModel
+
 
 @{
     ViewData["Title"] = "Delete";
@@ -62,9 +64,9 @@
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Artist)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Artist.Genre)
-        </dd>
+       @* <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Artist) // not present artist name MUST fix
+        </dd>*@
     </dl>
     
     <form asp-action="Delete">
