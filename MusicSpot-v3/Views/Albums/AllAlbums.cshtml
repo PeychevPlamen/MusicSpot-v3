@@ -4,19 +4,16 @@
 @{
     ViewData["Title"] = "Albums";
 }
-
+<br />
 <form method="get">
-    <div class="form-group col-md-4">
+    <div class="form-group col-md-3">
         <label asp-for="SearchTerm"></label>
         <input asp-for="SearchTerm" id="textId" class="form-control" placeholder="Album Name, Year or Format">
     </div>
 </form>
-
+<br />
 <h1>All Albums</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <table class="table">
     <thead>
         <tr>
@@ -24,7 +21,7 @@
                 Title
             </th>
             <th>
-                Image
+                TitleImage
             </th>
             <th>
                 Year
@@ -42,10 +39,10 @@
                 Description
             </th>
             <th>
-                IsPublic
+                Artist
             </th>
             <th>
-                Artist
+                Tracks
             </th>
             <th></th>
         </tr>
@@ -76,18 +73,28 @@
                     @Html.DisplayFor(modelItem => item.Description)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.IsPublic)
-                </td>
-                <td>
                     @Html.DisplayFor(modelItem => item.Artist.Name)
                 </td>
                 <td>
-                    <a class="btn btn-info m-1 btn-sm" asp-controller="Tracks" asp-action="Create" asp-route-id="@item.Id">Add Tracks</a>
-                    <a class="btn btn-success m-1 btn-sm" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
-                    <a class="btn btn-warning m-1 btn-sm" asp-action="Details" asp-route-id="@item.Id">Details</a>
-                    <a class="btn btn-danger m-1 btn-sm" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    <a class="btn btn-secondary m-1 text-nowrap" asp-area="" asp-controller="Tracks" asp-action="AllTracks" asp-route-id="@item.Id">All Tracks</a>
+                </td>
+                @* <td>
+                    <a class="nav-link btn text-center" asp-area="" asp-controller="Tracks" asp-action="Create" asp-route-id="@item.Id">Add Tracks</a>
+                    </td>*@
+                <td class="btn-group-vertical text-nowrap">
+                    <a class="btn btn-info m-1" asp-controller="Tracks" asp-action="Create" asp-route-id="@item.Id">Add Tracks</a>
+                    <a class="btn btn-success m-1" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                    <a class="btn btn-warning m-1" asp-action="Details" asp-route-id="@item.Id">Details</a>
+                    <a class="btn btn-danger m-1" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                 </td>
             </tr>
         }
     </tbody>
 </table>
+<paging render-mode="Bootstrap5"
+        page-no="@Model.PageNum"
+        page-size="@Model.PageSize"
+        total-records="@Model.TotalRec"
+        page-size-dropdown-items="5-25-50">
+</paging>
+<script src="~/js/site.js" asp-append-version="true"></script>

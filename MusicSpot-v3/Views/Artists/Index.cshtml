@@ -50,9 +50,9 @@
                 <td>
                     <a class="btn btn-secondary m-1 text-nowrap" asp-area="" asp-controller="Albums" asp-action="AllAlbums" asp-route-id="@item.Id">All Albums</a>
                 </td>
-                <td>
+                @*<td>
                     @Html.DisplayFor(modelItem => item.User.Id)
-                </td>
+                </td>*@
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                     <a asp-action="Details" asp-route-id="@item.Id">Details</a> |

@@ -110,7 +110,7 @@ namespace MusicSpot_v3.Controllers
                 return NotFound();
             }
 
-            ViewData["ArtistId"] = new SelectList(artistsList, "Id", "Genre", album.ArtistId);
+            ViewData["ArtistId"] = new SelectList(artistsList, "Id", "Name", album.ArtistId);
 
             return View(album);
         }
@@ -187,7 +187,7 @@ namespace MusicSpot_v3.Controllers
 
             var albumToDelete = _albumService.AlbumExists(id);
 
-            if (albumToDelete != null)
+            if (albumToDelete)
             {
                 await _albumService.DeleteAlbum(id, album);
             }
@@ -202,6 +202,14 @@ namespace MusicSpot_v3.Controllers
         private bool AlbumExists(int id)
         {
             return _albumService.AlbumExists(id);
+        }
+
+        public async Task<IActionResult> AllAlbums(int id, string searchTerm, int p = 1, int s = 5)
+        {
+            var userId = User.Id();
+            var albums = await _albumService.AllAlbums(userId, id, searchTerm, p, s);
+
+            return View(albums);
         }
     }
 }

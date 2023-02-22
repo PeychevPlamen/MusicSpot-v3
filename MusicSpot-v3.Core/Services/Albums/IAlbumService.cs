@@ -1,4 +1,5 @@
 ﻿using MusicSpot_v3.Core.Models.Albums;
+using MusicSpot_v3.Infrastructure.Data.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +19,8 @@ namespace MusicSpot_v3.Core.Services.Albums
         Task<EditAlbumFormModel> EditAlbum(int? albumId, EditAlbumFormModel album);
 
         Task<DetailsAlbumFormModel> DeleteAlbum(int? albumId, DetailsAlbumFormModel album);
+
+        Task<List<Album>> Albums(int id);
 
         bool AlbumExists(int albumId);
     }

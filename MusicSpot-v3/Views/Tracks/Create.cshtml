@@ -1,4 +1,6 @@
-﻿@model MusicSpot_v3.Infrastructure.Data.Models.Track
+﻿@using MusicSpot_v3.Core.Models.Tracks;
+@model CreateTrackFormModel
+
 
 @{
     ViewData["Title"] = "Create";
@@ -33,8 +35,9 @@
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
+
+<div class="form-group btn btn-primary">
+    <a class="text-white text-decoration-none" asp-controller="Albums" asp-action="Index">Back To Album</a>
 </div>
 
 @section Scripts {

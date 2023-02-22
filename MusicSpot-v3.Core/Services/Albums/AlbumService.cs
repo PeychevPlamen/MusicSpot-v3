@@ -3,8 +3,9 @@ using MusicSpot_v3.Infrastructure.Data;
 using MusicSpot_v3.Infrastructure.Data.Models;
 using System;
 using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
+//using System.Data.Entity;
+using Microsoft.EntityFrameworkCore;
+using System.Linq; 
 using System.Text;
 using System.Threading.Tasks;
 
@@ -33,7 +34,7 @@ namespace MusicSpot_v3.Core.Services.Albums
 
         public async Task<AllAlbumsViewModel> AllAlbums(string userId, int artistId, string searchTerm, int p, int s)
         {
-            var currAlbums = _context.Albums.Where(a => a.Artist.UserId == userId).Include(a => a.Artist).AsQueryable();
+            var currAlbums = _context.Albums.Where(a => a.ArtistId == artistId).Include(a => a.Artist).AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(searchTerm))
             {
@@ -136,6 +137,13 @@ namespace MusicSpot_v3.Core.Services.Albums
             currAlbum.ArtistId = album.ArtistId;
 
             await _context.SaveChangesAsync();
+
+            return album;
+        }
+
+        public async Task<List<Album>> Albums(int id)
+        {
+            var album = await _context.Albums.Where(x => x.Id == id).ToListAsync();
 
             return album;
         }
