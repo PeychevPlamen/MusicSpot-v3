@@ -31,29 +31,29 @@ namespace MusicSpot_v3.Controllers
         [Authorize]
         public async Task<IActionResult> Index(int albumId)
         {
-            var currAlbum = await _trackService.AllTracks(albumId);
+            //var currAlbum = await _trackService.AllTracks(albumId);
 
             return View();
         }
 
-        //// GET: Tracks/Details/5
-        //public async Task<IActionResult> Details(int? id)
-        //{
-        //    if (id == null || _context.Tracks == null)
-        //    {
-        //        return NotFound();
-        //    }
+        // GET: Tracks/Details/5
+        [Authorize]
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null || _trackService.Details(id) == null)
+            {
+                return NotFound();
+            }
 
-        //    var track = await _context.Tracks
-        //        .Include(t => t.Album)
-        //        .FirstOrDefaultAsync(m => m.Id == id);
-        //    if (track == null)
-        //    {
-        //        return NotFound();
-        //    }
+            var track = await _trackService.Details(id);
 
-        //    return View(track);
-        //}
+            if (track == null)
+            {
+                return NotFound();
+            }
+
+            return View(track);
+        }
 
         // GET: Tracks/Create
         [Authorize]

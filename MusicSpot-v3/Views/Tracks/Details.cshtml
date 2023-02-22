@@ -1,4 +1,6 @@
-﻿@model MusicSpot_v3.Infrastructure.Data.Models.Track
+﻿@*@model MusicSpot_v3.Infrastructure.Data.Models.Track*@
+@using MusicSpot_v3.Core.Models.Tracks;
+@model DetailsTrackFormModel
 
 @{
     ViewData["Title"] = "Details";
@@ -22,15 +24,15 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Duration)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Album)
+        @*<dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Album.Title)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Album.Format)
-        </dd>
+            @Html.DisplayFor(model => model.Album.Title)
+        </dd>*@
     </dl>
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-controller="Tracks" asp-action="AllTracks" asp-route-id="@Model?.AlbumId">Back to Tracks</a>
 </div>

@@ -26,7 +26,7 @@ namespace MusicSpot_v3.Core.Services.Tracks
             var result = new AllTracksViewModel
             {
                 Tracks = tracks.OrderBy(a => a.Id).ToList(),
-                AlbumId= albumId
+                AlbumId = albumId
             };
 
             return result;
@@ -45,6 +45,20 @@ namespace MusicSpot_v3.Core.Services.Tracks
             await _context.SaveChangesAsync();
 
             return track;
+        }
+
+        public async Task<DetailsTrackFormModel> Details(int? id)
+        {
+            var track = await _context.Tracks.FindAsync(id);
+
+            var result = new DetailsTrackFormModel
+            {
+                Name = track?.Name,
+                Duration = track?.Duration,
+                AlbumId = track?.AlbumId,
+            };
+
+            return result;
         }
     }
 }

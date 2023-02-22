@@ -13,5 +13,7 @@ namespace MusicSpot_v3.Core.Services.Tracks
         Task<CreateTrackFormModel> CreateTrack(CreateTrackFormModel track);
 
         Task<AllTracksViewModel> AllTracks(int albumId);
+
+        Task<DetailsTrackFormModel> Details(int? id);
     }
 }
