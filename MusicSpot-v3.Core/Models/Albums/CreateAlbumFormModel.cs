@@ -46,5 +46,7 @@ namespace MusicSpot_v3.Core.Models.Albums
 
         [Display(Name = "Artist")]
         public int ArtistId { get; set; }
+
+        public string? UserId { get; set; } // new
     }
 }

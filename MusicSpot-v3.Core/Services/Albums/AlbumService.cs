@@ -5,9 +5,10 @@ using System;
 using System.Collections.Generic;
 //using System.Data.Entity;
 using Microsoft.EntityFrameworkCore;
-using System.Linq; 
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MusicSpot_v3.Infrastructure.Data.Identity;
 
 namespace MusicSpot_v3.Core.Services.Albums
 {
@@ -61,13 +62,13 @@ namespace MusicSpot_v3.Core.Services.Albums
             return result;
         }
 
-        public async Task<CreateAlbumFormModel> CreateAlbum(CreateAlbumFormModel album)
+        public async Task<CreateAlbumFormModel> CreateAlbum(string userId, CreateAlbumFormModel album)
         {
             var currAlbum = new Album
             {
                 Id = album.Id,
                 Title = album.Title,
-                TitleImage= album.TitleImage,
+                TitleImage = album.TitleImage,
                 Year = album.Year,
                 Format = album.Format,
                 MediaCondition = album.MediaCondition,
@@ -76,6 +77,7 @@ namespace MusicSpot_v3.Core.Services.Albums
                 IsPublic = album.IsPublic,
                 Tracks = album.Tracks,
                 ArtistId = album.ArtistId,
+                UserId = userId, // new
             };
 
             await _context.Albums.AddAsync(currAlbum);
@@ -111,7 +113,7 @@ namespace MusicSpot_v3.Core.Services.Albums
                 Year = currAlbum.Year,
                 Format = currAlbum.Format,
                 MediaCondition = currAlbum.MediaCondition,
-                SleeveCondition= currAlbum.SleeveCondition,
+                SleeveCondition = currAlbum.SleeveCondition,
                 Description = currAlbum.Description,
                 IsPublic = currAlbum.IsPublic,
                 Tracks = currAlbum.Tracks,
@@ -146,6 +148,35 @@ namespace MusicSpot_v3.Core.Services.Albums
             var album = await _context.Albums.Where(x => x.Id == id).ToListAsync();
 
             return album;
+        }
+
+        public async Task<TotalUserAlbumsViewModel> TotalUserAlbums(string userId, string searchTerm, int p, int s)
+
+        {
+            var currAlbums = _context.Albums.Where(a => a.UserId == userId);
+
+            if (!string.IsNullOrWhiteSpace(searchTerm))
+            {
+                currAlbums = currAlbums.Where(a => a.Title.ToLower().Contains(searchTerm.ToLower()) ||
+                a.Year.ToString().ToLower().Contains(searchTerm.ToLower()) ||
+                a.Format.ToLower().Contains(searchTerm.ToLower()));
+            }
+
+            var result = new TotalUserAlbumsViewModel
+            {
+                Albums = currAlbums
+                            .OrderBy(x => x.Title)
+                            .Skip(p * s - s)
+                            .Take(s)
+                            .ToList(),
+                SearchTerm = searchTerm,
+                PageNum = p,
+                PageSize = s,
+                TotalRec = currAlbums.Count(),
+                UserId = userId
+            };
+
+            return result;
         }
     }
 }

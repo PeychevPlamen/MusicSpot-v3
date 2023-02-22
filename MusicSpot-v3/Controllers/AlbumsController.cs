@@ -29,11 +29,11 @@ namespace MusicSpot_v3.Controllers
 
         // GET: Albums
         [Authorize]
-        public async Task<IActionResult> Index(int artistId, string searchTerm, int p = 1, int s = 5)
+        public async Task<IActionResult> Index(int id, string searchTerm, int p = 1, int s = 5)
         {
             var userId = User.Id();
 
-            var currAlbums = await _albumService.AllAlbums(userId, artistId, searchTerm, p, s);
+            var currAlbums = await _albumService.TotalUserAlbums(userId, searchTerm, p, s);
 
             return View(currAlbums);
         }
@@ -81,7 +81,7 @@ namespace MusicSpot_v3.Controllers
 
             if (ModelState.IsValid)
             {
-                var result = await _albumService.CreateAlbum(album);
+                var result = await _albumService.CreateAlbum(userId, album);
 
                 return RedirectToAction(nameof(Index));
             }

@@ -14,7 +14,7 @@ namespace MusicSpot_v3.Core.Services.Albums
 
         Task<DetailsAlbumFormModel> DetailsAlbum(int? albumId);
 
-        Task<CreateAlbumFormModel> CreateAlbum(CreateAlbumFormModel album);
+        Task<CreateAlbumFormModel> CreateAlbum(string userId, CreateAlbumFormModel album);
 
         Task<EditAlbumFormModel> EditAlbum(int? albumId, EditAlbumFormModel album);
 
@@ -23,5 +23,7 @@ namespace MusicSpot_v3.Core.Services.Albums
         Task<List<Album>> Albums(int id);
 
         bool AlbumExists(int albumId);
+
+        Task<TotalUserAlbumsViewModel> TotalUserAlbums(string userId, string searchTerm, int p, int s);
     }
 }

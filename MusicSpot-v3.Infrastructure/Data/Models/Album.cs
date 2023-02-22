@@ -49,5 +49,7 @@ namespace MusicSpot_v3.Infrastructure.Data.Models
 
         public Artist? Artist { get; set; }
 
+        public string? UserId { get; set; }
+
     }
 }
