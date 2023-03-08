@@ -26,6 +26,6 @@ namespace MusicSpot_v3.Core.Models.Tracks
 
         public int TotalRec { get; set; }
 
-        //public string? UserId { get; set; }
+        public string? UserId { get; set; }
     }
 }

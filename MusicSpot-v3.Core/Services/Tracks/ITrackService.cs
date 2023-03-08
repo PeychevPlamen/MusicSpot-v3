@@ -15,5 +15,11 @@ namespace MusicSpot_v3.Core.Services.Tracks
         Task<AllTracksViewModel> AllTracks(int albumId);
 
         Task<DetailsTrackFormModel> Details(int? id);
+
+        Task<EditTrackFormModel> EditTrack(int? id, EditTrackFormModel track);
+
+        Task<AllTracksViewModel> Index(string userId, string searchTerm, int p, int s);
+
+        bool TrackExist(int trackId);
     }
 }

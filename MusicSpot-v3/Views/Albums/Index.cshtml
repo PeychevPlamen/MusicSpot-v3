@@ -82,6 +82,7 @@
                     @Html.DisplayFor(modelItem => item.Artist.Name)
                 </td>
                 <td>
+                    <a class="btn btn-primary m-1 btn-sm" asp-controller="Tracks" asp-action="AllTracks" asp-route-id="@item.Id">Tracks</a>
                     <a class="btn btn-info m-1 btn-sm" asp-controller="Tracks" asp-action="Create" asp-route-id="@item.Id">Add Tracks</a>
                     <a class="btn btn-success m-1 btn-sm" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
                     <a class="btn btn-warning m-1 btn-sm" asp-action="Details" asp-route-id="@item.Id">Details</a>

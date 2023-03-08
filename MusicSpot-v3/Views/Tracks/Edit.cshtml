@@ -1,4 +1,5 @@
-﻿@model MusicSpot_v3.Infrastructure.Data.Models.Track
+﻿@using MusicSpot_v3.Core.Models.Tracks;
+@model DetailsTrackFormModel
 
 @{
     ViewData["Title"] = "Edit";
@@ -23,21 +24,22 @@
                 <input asp-for="Duration" class="form-control" />
                 <span asp-validation-for="Duration" class="text-danger"></span>
             </div>
-            <div class="form-group">
+           @* <div class="form-group">
                 <label asp-for="AlbumId" class="control-label"></label>
                 <select asp-for="AlbumId" class="form-control" asp-items="ViewBag.AlbumId"></select>
                 <span asp-validation-for="AlbumId" class="text-danger"></span>
-            </div>
+            </div>*@
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Save" class="btn btn-primary mt-2" />
+                <a class="btn btn-primary mt-2" asp-action="Index">Back to List</a>
             </div>
         </form>
     </div>
 </div>
 
-<div>
+@*<div>
     <a asp-action="Index">Back to List</a>
-</div>
+</div>*@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

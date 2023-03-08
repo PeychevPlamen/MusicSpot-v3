@@ -29,11 +29,13 @@ namespace MusicSpot_v3.Controllers
 
         // GET: Tracks
         [Authorize]
-        public async Task<IActionResult> Index(int albumId)
+        public async Task<IActionResult> Index(string searchTerm, int p = 1, int s = 5)
         {
-            //var currAlbum = await _trackService.AllTracks(albumId);
+            var userId = User.Id();
 
-            return View();
+            var currTracks = await _trackService.Index(userId, searchTerm, p, s);
+
+            return View(currTracks);
         }
 
         // GET: Tracks/Details/5
@@ -73,11 +75,11 @@ namespace MusicSpot_v3.Controllers
         public async Task<IActionResult> Create(CreateTrackFormModel track)
         {
             var album = await _albumService.Albums(track.AlbumId);
-            
+
             if (ModelState.IsValid)
             {
                 await _trackService.CreateTrack(track);
-               
+
                 return RedirectToAction(nameof(Create));
             }
 
@@ -85,58 +87,64 @@ namespace MusicSpot_v3.Controllers
             return View(track);
         }
 
-        //// GET: Tracks/Edit/5
-        //public async Task<IActionResult> Edit(int? id)
-        //{
-        //    if (id == null || _context.Tracks == null)
-        //    {
-        //        return NotFound();
-        //    }
+        // GET: Tracks/Edit/5
+        public async Task<IActionResult> Edit(int id)
+        {
+            var track = await _trackService.Details(id);
+            var albumList = await _albumService.Albums(id);
 
-        //    var track = await _context.Tracks.FindAsync(id);
-        //    if (track == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    ViewData["AlbumId"] = new SelectList(_context.Albums, "Id", "Format", track.AlbumId);
-        //    return View(track);
-        //}
+            if (_trackService.EditTrack == null)
+            {
+                return NotFound();
+            }
 
-        //// POST: Tracks/Edit/5
-        //// To protect from overposting attacks, enable the specific properties you want to bind to.
-        //// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Duration,AlbumId")] Track track)
-        //{
-        //    if (id != track.Id)
-        //    {
-        //        return NotFound();
-        //    }
+            if (track == null)
+            {
+                return NotFound();
+            }
 
-        //    if (ModelState.IsValid)
-        //    {
-        //        try
-        //        {
-        //            _context.Update(track);
-        //            await _context.SaveChangesAsync();
-        //        }
-        //        catch (DbUpdateConcurrencyException)
-        //        {
-        //            if (!TrackExists(track.Id))
-        //            {
-        //                return NotFound();
-        //            }
-        //            else
-        //            {
-        //                throw;
-        //            }
-        //        }
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    ViewData["AlbumId"] = new SelectList(_context.Albums, "Id", "Format", track.AlbumId);
-        //    return View(track);
-        //}
+            //ViewData["AlbumId"] = new SelectList(albumList, "Id", "Name", track.AlbumId);
+
+            return View(track);
+        }
+
+        // POST: Tracks/Edit/5
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, EditTrackFormModel track)
+        {
+            var albumList = await _albumService.Albums(track.AlbumId);
+
+            if (id != track.Id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                   await _trackService.EditTrack(id, track);
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!TrackExists(track.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+
+            ViewData["AlbumId"] = new SelectList(albumList, "Id", "Name", track.AlbumId);
+
+            return View(track);
+        }
 
         //// GET: Tracks/Delete/5
         //public async Task<IActionResult> Delete(int? id)
@@ -176,10 +184,10 @@ namespace MusicSpot_v3.Controllers
         //    return RedirectToAction(nameof(Index));
         //}
 
-        //private bool TrackExists(int id)
-        //{
-        //  return _context.Tracks.Any(e => e.Id == id);
-        //}
+        private bool TrackExists(int id)
+        {
+            return _trackService.TrackExist(id);
+        }
 
         [Authorize]
         public async Task<IActionResult> AllTracks(int id)
