@@ -21,7 +21,7 @@ namespace MusicSpot_v3.Core.Models.Tracks
         public string? Name { get; set; }
 
         [Required]
-        [RegularExpression(TrackDurationRegEx, ErrorMessage = "Duration should be in format mm:ss(seconds in range 00-59")]
+        [RegularExpression(TrackDurationRegEx, ErrorMessage = "Duration should be in format mm:ss (seconds in range 00-59")]
         public string? Duration { get; set; }
 
         [Display(Name = "Album Name")]
