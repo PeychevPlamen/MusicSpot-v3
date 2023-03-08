@@ -21,5 +21,7 @@ namespace MusicSpot_v3.Core.Models.Tracks
         public int? AlbumId { get; set; }
 
         public Album? Album { get; set; }
+
+        public string? AlbumTitle { get; set; }
     }
 }

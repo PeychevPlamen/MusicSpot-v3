@@ -48,15 +48,29 @@ namespace MusicSpot_v3.Core.Services.Tracks
             return track;
         }
 
+        public async Task<DetailsTrackFormModel> DeleteTrack(int? trackId, DetailsTrackFormModel trackToDelete)
+        {
+            var track = await _context.Tracks.FindAsync(trackId);
+
+            _context.Tracks.Remove(track);
+            await _context.SaveChangesAsync();
+
+            return trackToDelete;
+        }
+
         public async Task<DetailsTrackFormModel> Details(int? id)
         {
             var track = await _context.Tracks.FindAsync(id);
 
+            var albumTitle = await _context.Tracks.Where(t => t.AlbumId == track.AlbumId).Select(t => t.Album.Title).FirstOrDefaultAsync();
+
             var result = new DetailsTrackFormModel
             {
+                Id = track.Id,
                 Name = track?.Name,
                 Duration = track?.Duration,
                 AlbumId = track?.AlbumId,
+                AlbumTitle = albumTitle,
             };
 
             return result;
@@ -79,7 +93,7 @@ namespace MusicSpot_v3.Core.Services.Tracks
         {
             var allTracks = _context.Albums.Where(x => x.Artist.UserId == userId).SelectMany(x => x.Tracks);
             var albumId = await _context.Albums.Select(a => a.Id).FirstOrDefaultAsync();
-            
+
             if (!string.IsNullOrWhiteSpace(searchTerm))
             {
                 allTracks = allTracks.Where(a => a.Name.ToLower().Contains(searchTerm.ToLower()));

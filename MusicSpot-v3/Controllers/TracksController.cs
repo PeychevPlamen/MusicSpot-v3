@@ -42,7 +42,7 @@ namespace MusicSpot_v3.Controllers
         [Authorize]
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _trackService.Details(id) == null)
+            if (id == null)
             {
                 return NotFound();
             }
@@ -125,7 +125,7 @@ namespace MusicSpot_v3.Controllers
             {
                 try
                 {
-                   await _trackService.EditTrack(id, track);
+                    await _trackService.EditTrack(id, track);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -146,43 +146,49 @@ namespace MusicSpot_v3.Controllers
             return View(track);
         }
 
-        //// GET: Tracks/Delete/5
-        //public async Task<IActionResult> Delete(int? id)
-        //{
-        //    if (id == null || _context.Tracks == null)
-        //    {
-        //        return NotFound();
-        //    }
+        // GET: Tracks/Delete/5
+        [Authorize]
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
 
-        //    var track = await _context.Tracks
-        //        .Include(t => t.Album)
-        //        .FirstOrDefaultAsync(m => m.Id == id);
-        //    if (track == null)
-        //    {
-        //        return NotFound();
-        //    }
+            var track = await _trackService.Details(id);
 
-        //    return View(track);
-        //}
+            if (track == null)
+            {
+                return NotFound();
+            }
 
-        //// POST: Tracks/Delete/5
-        //[HttpPost, ActionName("Delete")]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> DeleteConfirmed(int id)
-        //{
-        //    if (_context.Tracks == null)
-        //    {
-        //        return Problem("Entity set 'ApplicationDbContext.Tracks'  is null.");
-        //    }
-        //    var track = await _context.Tracks.FindAsync(id);
-        //    if (track != null)
-        //    {
-        //        _context.Tracks.Remove(track);
-        //    }
+            return View(track);
+        }
 
-        //    await _context.SaveChangesAsync();
-        //    return RedirectToAction(nameof(Index));
-        //}
+        // POST: Tracks/Delete/5
+        [Authorize]
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id, DetailsTrackFormModel track)
+        {
+            if (_trackService.Details(id) == null)
+            {
+                return Problem("Entity set 'ApplicationDbContext.Tracks'  is null.");
+            }
+
+            var trackExist = _trackService.TrackExist(id);
+
+            if (trackExist)
+            {
+                await _trackService.DeleteTrack(id, track);
+            }
+            else
+            {
+                return NotFound(nameof(track));
+            }
+                       
+            return RedirectToAction(nameof(AllTracks));
+        }
 
         private bool TrackExists(int id)
         {

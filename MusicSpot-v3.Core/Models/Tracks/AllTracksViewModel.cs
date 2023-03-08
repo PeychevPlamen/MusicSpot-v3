@@ -11,8 +11,7 @@ namespace MusicSpot_v3.Core.Models.Tracks
 {
     public class AllTracksViewModel
     {
-        //public IEnumerable<string> TrackName { get; set; }
-
+        
         [Display(Name = "Search")]
         public string SearchTerm { get; set; }
 
@@ -27,5 +26,7 @@ namespace MusicSpot_v3.Core.Models.Tracks
         public int TotalRec { get; set; }
 
         public string? UserId { get; set; }
+
+        //public string? AlbumTitle { get; set; }
     }
 }
